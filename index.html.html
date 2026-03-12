@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malin Kundang — Production Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --deep: #0D0B07;
+    --dark: #1A1710;
+    --card: #211E16;
+    --border: #3A3520;
+    --text: #E8E0CE;
+    --muted: #9A9070;
+    --accent-red: #C94C4C;
+    --accent-teal: #4C9A8A;
+    --accent-purple: #8A4CB8;
+    --accent-blue: #4C7AB8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .hero {
+    background: linear-gradient(135deg, #0D0B07 0%, #1E1A0A 50%, #0D0B07 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 32px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 960px; margin: 0 auto; }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .hero p {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 480px;
+    margin-top: 12px;
+  }
+
+  /* NAV */
+  .nav-wrap {
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav {
+    display: flex;
+    gap: 2px;
+    padding: 0 24px;
+    max-width: 960px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 14px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* MAIN */
+  .main { max-width: 960px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+  .section-sub strong { color: var(--gold); font-weight: 500; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* MOODBOARD */
+  .mood-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .mood-cell {
+    border-radius: 6px;
+    padding: 16px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+  .mood-cell-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    opacity: 0.7;
+  }
+  .mood-cell-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .scene1-mood { background: linear-gradient(135deg, #2D4A1E, #1A2D10); color: #8FBF60; }
+  .scene2-mood { background: linear-gradient(135deg, #1A2A3D, #0D1A2A); color: #60A0CF; }
+  .scene3-mood { background: linear-gradient(135deg, #3D1A1A, #2A0D0D); color: #CF6060; }
+
+  .color-row { display: flex; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+  .color-swatch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .swatch-dot { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; }
+  .tone-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tone-tag {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* TOOL RECOMMENDATIONS */
+  .tool-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .tool-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .tool-item .tool-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .tool-item .tool-desc { font-size: 12px; color: var(--muted); }
+  .tool-item .tool-free {
+    display: inline-block;
+    background: rgba(76,154,138,0.15);
+    border: 1px solid rgba(76,154,138,0.3);
+    color: #6DC8B8;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  th {
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(58,53,32,0.5);
+    vertical-align: top;
+    color: var(--text);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .badge-sound { background: rgba(76,122,184,0.2); border: 1px solid rgba(76,122,184,0.4); color: #7AAAE8; }
+  .badge-light { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35); color: var(--gold-light); }
+  .badge-scene { background: rgba(138,76,184,0.15); border: 1px solid rgba(138,76,184,0.35); color: #B87AE8; }
+  .badge-actor { background: rgba(76,154,138,0.15); border: 1px solid rgba(76,154,138,0.35); color: #6DC8B8; }
+  .badge-high { background: rgba(201,76,76,0.15); border: 1px solid rgba(201,76,76,0.35); color: #E87A7A; }
+  .badge-med { background: rgba(201,140,76,0.15); border: 1px solid rgba(201,140,76,0.35); color: #E8B07A; }
+  .badge-low { background: rgba(120,140,76,0.15); border: 1px solid rgba(120,140,76,0.35); color: #B8C87A; }
+  .badge-done { background: rgba(76,154,138,0.15); border: 1px solid rgba(76,154,138,0.35); color: #6DC8B8; }
+  .badge-week { background: rgba(58,53,32,0.8); border: 1px solid var(--border); color: var(--muted); }
+
+  /* CHARACTER CARD */
+  .char-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .char-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .char-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 2px;
+  }
+  .char-role { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .char-row { display: flex; gap: 6px; align-items: flex-start; margin-bottom: 5px; font-size: 12.5px; }
+  .char-row-label { color: var(--gold); font-weight: 600; min-width: 72px; flex-shrink: 0; }
+  .char-row-val { color: var(--text); }
+
+  /* STAGE MAP */
+  .stage-map {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .stage-label {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .stage-area {
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    min-height: 200px;
+    position: relative;
+    background: rgba(0,0,0,0.3);
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  .audience-bar {
+    text-align: center;
+    padding: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    border-top: 2px dashed var(--border);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .stage-zone {
+    position: absolute;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    text-align: center;
+    padding: 4px;
+    line-height: 1.3;
+  }
+  .actor-dot {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    cursor: default;
+  }
+  .stage-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; justify-content: center; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+
+  /* SCHEDULE */
+  .week-block {
+    border-left: 3px solid var(--border);
+    padding-left: 20px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .week-block::before {
+    content: '';
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--dark);
+    position: absolute;
+    left: -7px;
+    top: 4px;
+  }
+  .week-block.urgent { border-left-color: var(--accent-red); }
+  .week-block.urgent::before { background: var(--accent-red); }
+  .week-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .week-block.urgent .week-title { color: #E87A7A; }
+  .day-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    margin-bottom: 7px;
+    align-items: start;
+    font-size: 12.5px;
+  }
+  .day-label { color: var(--muted); font-weight: 600; }
+  .day-tasks { color: var(--text); }
+  .day-tasks span { display: block; margin-bottom: 2px; }
+  .day-tasks span::before { content: '→ '; color: var(--gold); opacity: 0.6; }
+
+  /* FINANCE */
+  .budget-total {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin: 4px 0;
+  }
+  .budget-bar { background: var(--border); border-radius: 4px; height: 8px; margin: 8px 0 4px; overflow: hidden; }
+  .budget-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.6s; }
+
+  /* PROPS */
+  .prop-row td:first-child { font-weight: 600; color: var(--gold-light); }
+
+  /* INFO BOX */
+  .info-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .info-box strong { color: var(--gold); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  @media (max-width: 600px) {
+    .mood-grid { grid-template-columns: 1fr; }
+    .tool-list { grid-template-columns: 1fr; }
+    .char-grid { grid-template-columns: 1fr; }
+    .day-row { grid-template-columns: 80px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">Drama Performance Class · Production Toolkit</span>
+    <h1>Malin Kundang<br><em>Another Universe</em></h1>
+    <p>Complete reference guide for all 9 production roles — with real examples filled in for your show. Zero experience required.</p>
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <div class="nav">
+    <button class="nav-btn active" onclick="showTab('moodboard')">🎨 Moodboard</button>
+    <button class="nav-btn" onclick="showTab('character')">🎭 Character Vision</button>
+    <button class="nav-btn" onclick="showTab('stageboard')">🗺️ Stageboard</button>
+    <button class="nav-btn" onclick="showTab('cuesheet')">🎛️ Cue Sheet</button>
+    <button class="nav-btn" onclick="showTab('props')">📦 Prop Tracker</button>
+    <button class="nav-btn" onclick="showTab('wardrobe')">👗 Wardrobe</button>
+    <button class="nav-btn" onclick="showTab('schedule')">📅 Schedule</button>
+    <button class="nav-btn" onclick="showTab('finance')">💰 Finance</button>
+    <button class="nav-btn" onclick="showTab('tools')">🛠️ Tools Guide</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ═══════════ MOODBOARD ═══════════ -->
+  <div class="section active" id="moodboard">
+    <div class="section-title">Director's Moodboard</div>
+    <div class="section-sub">Made by: <strong>Sutradara</strong> · Share this with ALL departments before they start working.</div>
+
+    <div class="info-box">
+      <strong>What is a moodboard?</strong> It's a visual mood map that tells everyone — Wardrobe, Sound, Lighting, Props, Publication — what the show should FEEL like. Instead of describing it in words, you show it with colors, keywords, and images. This prevents miscommunication between departments.
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Overall Show Tone</div>
+      <div class="tone-tags">
+        <span class="tone-tag">Drama-Comedy</span>
+        <span class="tone-tag">Modern Retelling</span>
+        <span class="tone-tag">Playful but Emotional</span>
+        <span class="tone-tag">Satirical</span>
+        <span class="tone-tag">Warm Village → Cold Corporate → Chaotic Curse</span>
+      </div>
+      <p style="margin-top:14px; color:var(--muted); font-size:13px;">Think: a telenovela that doesn't take itself seriously, but has real emotional punches at the end.</p>
+    </div>
+
+    <div class="mood-grid">
+      <div class="mood-cell scene1-mood">
+        <div class="mood-cell-label">Scene 1</div>
+        <div class="mood-cell-name">The Village</div>
+      </div>
+      <div class="mood-cell scene2-mood">
+        <div class="mood-cell-label">Scene 2</div>
+        <div class="mood-cell-name">Jakarta Office</div>
+      </div>
+      <div class="mood-cell scene3-mood">
+        <div class="mood-cell-label">Scene 3</div>
+        <div class="mood-cell-name">The Chaos</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Scene 1 — Village · Mood: Warm, Cramped, Nostalgic</div>
+      <div class="color-row">
+        <div class="color-swatch"><div class="swatch-dot" style="background:#8B6914"></div>Earthy Brown</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#5D8A30"></div>Leaf Green</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#D4A84B"></div>Golden Hour</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#C9856A"></div>Warm Terra</div>
+      </div>
+      <div class="tone-tags" style="margin-top:8px;">
+        <span class="tone-tag">Bright warm lighting</span>
+        <span class="tone-tag">Village sounds / crickets</span>
+        <span class="tone-tag">Simple handmade props</span>
+        <span class="tone-tag">Traditional costume</span>
+        <span class="tone-tag">Tender + comedic</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Scene 2 — Jakarta Office · Mood: Sleek, Tense, Romantic Undertone</div>
+      <div class="color-row">
+        <div class="color-swatch"><div class="swatch-dot" style="background:#1A2A40"></div>Corporate Navy</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#4A7FA5"></div>Office Blue</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#E8E0CE"></div>Clean White</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#8A4C8A"></div>Roro's Purple</div>
+      </div>
+      <div class="tone-tags" style="margin-top:8px;">
+        <span class="tone-tag">Cool neutral lighting</span>
+        <span class="tone-tag">City ambience / AC hum</span>
+        <span class="tone-tag">Modern props (clipboard, table)</span>
+        <span class="tone-tag">Smart-casual costume</span>
+        <span class="tone-tag">Comedy beats + slow-burn romance</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Scene 3 — The Chaos · Mood: Dramatic, Loud, Absurd, Cursed</div>
+      <div class="color-row">
+        <div class="color-swatch"><div class="swatch-dot" style="background:#8A1A1A"></div>Curse Red</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#1A1A1A"></div>Deep Black</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#7A5A8A"></div>Jin Purple</div>
+        <div class="color-swatch"><div class="swatch-dot" style="background:#D4A84B"></div>Mama Gold</div>
+      </div>
+      <div class="tone-tags" style="margin-top:8px;">
+        <span class="tone-tag">Red/purple dramatic lights</span>
+        <span class="tone-tag">Thunder + freeze SFX</span>
+        <span class="tone-tag">Smoke effect</span>
+        <span class="tone-tag">Theatrical costumes for Jins</span>
+        <span class="tone-tag">Comedy chaos → emotional ending</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>How to actually make this moodboard (free tools)</div>
+      <p style="color:var(--muted); font-size:13px; margin-bottom:10px;">Use one of these free tools. Collect images from Pinterest or Google Images that match each scene's color and mood.</p>
+      <div class="tool-list">
+        <div class="tool-item">
+          <div class="tool-name">Canva</div>
+          <div class="tool-desc">Search "moodboard template" → drag images and colors in. Easiest option.</div>
+          <span class="tool-free">FREE</span>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">Pinterest</div>
+          <div class="tool-desc">Create a secret board per scene. Pin reference images. Share the link with team.</div>
+          <span class="tool-free">FREE</span>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">Milanote</div>
+          <div class="tool-desc">More visual and flexible. Best for directors. Free plan available.</div>
+          <span class="tool-free">FREE</span>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">Google Slides</div>
+          <div class="tool-desc">Everyone already has it. One slide per scene. Simple and shareable.</div>
+          <span class="tool-free">FREE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ CHARACTER VISION ═══════════ -->
+  <div class="section" id="character">
+    <div class="section-title">Character Vision Sheet</div>
+    <div class="section-sub">Made by: <strong>Skrip Writer + Sutradara</strong> · Share with: Wardrobe, Actors, Publication.</div>
+
+    <div class="info-box">
+      <strong>What is this?</strong> A one-page cheat sheet per character that tells actors HOW to play the role, and tells Wardrobe + Makeup WHAT the character should look like. Everyone gets the same vision.
+    </div>
+
+    <div class="char-grid">
+      <div class="char-card">
+        <div class="char-name">Malin Kundang</div>
+        <div class="char-role">Main Character · Hero → Antagonist</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">Obedient → ambitious → ungrateful. Arc from soft boy to cold businessman.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Scene 1: gentle, shy. Scene 2–3: confident, stiff. Freeze slowly for curse.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Nervous and stumbling around Roro. Defensive and cold with Mama in Scene 3.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Scene 1: simple village shirt. Scene 2–3: neat business casual, clean shoes.</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">Slowly freezing as the curse hits — play this straight, not funny.</span></div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-name">Mama</div>
+        <div class="char-role">Supporting · Strict Mother · Secret Winner</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">Controlling but loves Malin deeply. Hides pain behind authority. Comic but tragic.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Firm posture, hands on hips a lot. Slow dramatic walk when she enters in Scene 3.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Short, sharp sentences. Never explains herself. Deadpan delivery = funnier.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Traditional kebaya or batik wrap. Sensible shoes. Hair tied up. No jewelry.</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">Ending on the throne — sit slowly, smile peacefully. The audience should laugh AND feel something.</span></div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-name">Roro Jonggrang</div>
+        <div class="char-role">Supporting · Love Interest · Brave Escapee</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">Appears vulnerable at first but is quietly strong. Not a damsel — she makes the plan.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Graceful, measured. Slight tension in body when near Bandung. Relaxes around Malin.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Soft voice, deliberate. Pauses before important lines. Eye contact is her weapon.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Elegant but not overdone. Soft colors (dusty pink or lilac). Neat hair. Modest jewelry.</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">Confronting Bandung in Scene 3 — stand tall, direct eye contact, zero fear.</span></div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-name">Jamilah</div>
+        <div class="char-role">Comic Relief · Dayang #2 · Scene Stealer</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">Desperately wants a boyfriend. Says whatever she thinks. Socially unaware but warm-hearted.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Big gestures. Leans in too close. Raises hand confidently for wrong things.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Loud, enthusiastic. Slightly bad timing. Delivers lines like she's proud of herself.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Slightly mismatched outfit — colors that don't quite go together. Fussy accessories.</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">"I am also available" — step forward with full confidence and zero shame.</span></div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-name">Bandung Bondowoso</div>
+        <div class="char-role">Antagonist · Controlling Fiancé</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">NPD villain — obsessed with control, not love. Collapses when he loses power.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Takes up space. Slow deliberate walk. Hand gestures like he's conducting. Never slouches.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Low voice, over-confident. Long pauses for dramatic effect. "Good." is said a lot.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Sharp black or navy suit. Pocket square. Cufflinks if possible. Hair slicked back.</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">Learning he must go to Jin world — confusion then panic. Let the mask slip here.</span></div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-name">Jinny & Jonny</div>
+        <div class="char-role">Jins · Trickster Duo · Comedy Pair</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">Jinny is clever and slightly sarcastic. Jonny is goofy and always sleepy/hungry.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Appear suddenly with flair. Mirror each other's poses. Speak in rhythm like a duo.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Jinny: dry wit. Jonny: complaints. Together they finish each other's sentences.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Matching quirky outfits — same color, different details. Think: fantastical + funny. Gold/purple.</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">"Do we get snacks?" — Jonny completely serious. Jinny nods in agreement.</span></div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-name">Bodyguard 1 & 2</div>
+        <div class="char-role">Extra · Reaction Machine · Scene Padding</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">Try very hard to be professional. Fail constantly. React to everything dramatically.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Military posture at all times. Snap to attention whenever Bandung enters.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Formal and official... until something shocks them. Then normal human panic.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Matching outfits. Dark pants, same shirt or vest. Earpiece if available (or fake it).</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">"Even my instant noodles need three minutes" — deliver this completely deadpan.</span></div>
+      </div>
+
+      <div class="char-card">
+        <div class="char-name">Bujang</div>
+        <div class="char-role">Supporting · Best Friend · Emotional Support</div>
+        <div class="char-row"><span class="char-row-label">Personality</span><span class="char-row-val">Loyal, cheerful, slightly oblivious. Genuinely wants the best for Malin.</span></div>
+        <div class="char-row"><span class="char-row-label">Moves like</span><span class="char-row-val">Relaxed and bouncy. Leans on things. Casual energy in every scene.</span></div>
+        <div class="char-row"><span class="char-row-label">Speaks like</span><span class="char-row-val">Warm and encouraging. Whispers good advice at the worst times.</span></div>
+        <div class="char-row"><span class="char-row-label">Look</span><span class="char-row-val">Scene 1: casual kampung. Scene 2–3: smart-casual, but slightly less polished than Malin.</span></div>
+        <div class="char-row"><span class="char-row-label">Key moment</span><span class="char-row-val">"Bro… breathe." — said with complete calm while Malin panics.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ STAGEBOARD ═══════════ -->
+  <div class="section" id="stageboard">
+    <div class="section-title">Stageboard (Blocking Map)</div>
+    <div class="section-sub">Made by: <strong>Sutradara</strong> · Shared with: Stage Manager, Actors, Props.</div>
+
+    <div class="info-box">
+      <strong>What is a stageboard?</strong> A simple top-down map of the stage showing WHERE each actor stands in each scene. "Blocking" means the planned movements of actors. This prevents actors from bumping into each other and helps Props know where to place things.
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Stage Zone Map (All Scenes)</div>
+      <div class="stage-label">↑ UPSTAGE (back of stage, far from audience)</div>
+      <div class="stage-area">
+        <!-- Zone labels -->
+        <div class="stage-zone" style="left:5%;top:10%;width:28%;height:35%;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1);color:var(--muted)">UP LEFT</div>
+        <div class="stage-zone" style="left:36%;top:10%;width:28%;height:35%;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1);color:var(--muted)">UP CENTER</div>
+        <div class="stage-zone" style="left:67%;top:10%;width:28%;height:35%;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1);color:var(--muted)">UP RIGHT</div>
+        <div class="stage-zone" style="left:5%;top:55%;width:28%;height:35%;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1);color:var(--muted)">DOWN LEFT</div>
+        <div class="stage-zone" style="left:36%;top:55%;width:28%;height:35%;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1);color:var(--muted)">DOWN CENTER</div>
+        <div class="stage-zone" style="left:67%;top:55%;width:28%;height:35%;background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1);color:var(--muted)">DOWN RIGHT</div>
+      </div>
+      <div class="audience-bar">AUDIENCE ↓ DOWNSTAGE (front, closest to audience)</div>
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center;">Note: Stage Left/Right is from the ACTOR's perspective facing the audience, not the audience's view.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Scene 1 — Village Blocking</div>
+      <div class="stage-label">↑ UPSTAGE</div>
+      <div class="stage-area" style="min-height:180px;">
+        <!-- House -->
+        <div class="stage-zone" style="left:5%;top:8%;width:35%;height:40%;background:rgba(139,105,20,0.15);border:1px solid rgba(139,105,20,0.4);color:#C9A84C;font-size:11px;">🏠 House Prop</div>
+        <!-- Actors -->
+        <div class="actor-dot" style="left:20%;top:55%;border-color:#6DC8B8;background:rgba(76,154,138,0.2);color:#6DC8B8;">ML</div>
+        <div class="actor-dot" style="left:35%;top:50%;border-color:#E87A7A;background:rgba(201,76,76,0.2);color:#E87A7A;">MA</div>
+        <div class="actor-dot" style="left:65%;top:20%;border-color:#B87AE8;background:rgba(138,76,184,0.2);color:#B87AE8;">BJ</div>
+      </div>
+      <div class="audience-bar">AUDIENCE</div>
+      <div class="stage-legend">
+        <div class="legend-item"><div class="legend-dot" style="border-color:#6DC8B8;background:rgba(76,154,138,0.2)"></div>ML = Malin</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#E87A7A;background:rgba(201,76,76,0.2)"></div>MA = Mama</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#B87AE8;background:rgba(138,76,184,0.2)"></div>BJ = Bujang</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Scene 2 — Jakarta Office Blocking</div>
+      <div class="stage-label">↑ UPSTAGE</div>
+      <div class="stage-area" style="min-height:180px;">
+        <!-- Table -->
+        <div class="stage-zone" style="left:30%;top:15%;width:40%;height:25%;background:rgba(30,50,80,0.3);border:1px solid rgba(76,122,184,0.4);color:#7AAAE8;font-size:11px;">🪑 Office Table</div>
+        <!-- Door marker -->
+        <div class="stage-zone" style="right:2%;top:8%;width:12%;height:15%;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--muted);font-size:10px;">DOOR</div>
+        <!-- Actors -->
+        <div class="actor-dot" style="left:15%;top:55%;border-color:#6DC8B8;background:rgba(76,154,138,0.2);color:#6DC8B8;">ML</div>
+        <div class="actor-dot" style="left:30%;top:55%;border-color:#B87AE8;background:rgba(138,76,184,0.2);color:#B87AE8;">BJ</div>
+        <div class="actor-dot" style="left:50%;top:45%;border-color:#E8C97A;background:rgba(201,168,76,0.2);color:#E8C97A;">RR</div>
+        <div class="actor-dot" style="left:63%;top:65%;border-color:#E87A7A;background:rgba(201,76,76,0.2);color:#E87A7A;">JM</div>
+        <div class="actor-dot" style="left:75%;top:55%;border-color:#7AAAE8;background:rgba(76,122,184,0.2);color:#7AAAE8;">ND</div>
+        <div class="actor-dot" style="left:50%;top:15%;border-color:#ffffff;background:rgba(255,255,255,0.1);color:#fff;">BB</div>
+        <div class="actor-dot" style="left:15%;top:20%;border-color:#999;background:rgba(100,100,100,0.2);color:#aaa;">G1</div>
+        <div class="actor-dot" style="left:85%;top:20%;border-color:#999;background:rgba(100,100,100,0.2);color:#aaa;">G2</div>
+      </div>
+      <div class="audience-bar">AUDIENCE</div>
+      <div class="stage-legend">
+        <div class="legend-item"><div class="legend-dot" style="border-color:#6DC8B8;"></div>ML=Malin</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#B87AE8;"></div>BJ=Bujang</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#E8C97A;"></div>RR=Roro</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#E87A7A;"></div>JM=Jamilah</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#7AAAE8;"></div>ND=Nandini</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#fff;"></div>BB=Bandung</div>
+        <div class="legend-item"><div class="legend-dot" style="border-color:#999;"></div>G1/G2=Guards</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Tip for Director:</strong> Print this page or redraw these maps on paper. During rehearsal, update positions as needed. Use sticky notes on a table to rehearse blocking before you even get on stage.
+    </div>
+  </div>
+
+  <!-- ═══════════ CUE SHEET ═══════════ -->
+  <div class="section" id="cuesheet">
+    <div class="section-title">Master Cue Sheet</div>
+    <div class="section-sub">Made by: <strong>Stage Manager</strong> · Used during: rehearsal and show day.</div>
+
+    <div class="info-box">
+      <strong>What is a cue sheet?</strong> Every time the lighting changes, a sound plays, or the scene transitions — that is a "cue." The Stage Manager calls each cue during the show by saying "Sound 3… GO" or "Light 5… GO." This sheet lists every single cue in order so nothing is missed. <strong>LX</strong> = Lighting. <strong>SX</strong> = Sound. <strong>SC</strong> = Scene change.
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Type</th>
+              <th>Trigger Line / Moment</th>
+              <th>Action</th>
+              <th>Duration</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b>PRE-1</b></td><td><span class="badge badge-sound">SX</span></td><td>Before show starts</td><td>Village ambience plays softly</td><td>Until curtain</td><td>Volume low. Background only.</td></tr>
+            <tr><td><b>PRE-2</b></td><td><span class="badge badge-light">LX</span></td><td>Audience seated</td><td>House lights dim to 30%</td><td>30 sec</td><td>Signal show is starting soon</td></tr>
+            <tr><td><b>1</b></td><td><span class="badge badge-light">LX</span></td><td>Narrator begins speaking</td><td>Warm golden light up on stage — full</td><td>5 sec fade</td><td>Scene 1 — village warm palette</td></tr>
+            <tr><td><b>2</b></td><td><span class="badge badge-sound">SX</span></td><td>Narrator: "small village"</td><td>Fade out ambience</td><td>3 sec</td><td>—</td></tr>
+            <tr><td><b>3</b></td><td><span class="badge badge-sound">SX</span></td><td>Bujang enters happily</td><td>Short cheerful arrival sting</td><td>2 sec</td><td>Optional comedy beat</td></tr>
+            <tr><td><b>4</b></td><td><span class="badge badge-light">LX</span></td><td>Malin: "Sorry Mama… I must go"</td><td>Light dims to half — focus on Malin only</td><td>4 sec</td><td>Emotional beat — slow fade</td></tr>
+            <tr><td><b>5</b></td><td><span class="badge badge-sound">SX</span></td><td>Malin quietly leaves</td><td>Soft sad music plays briefly</td><td>5 sec</td><td>Malin's departure underscore</td></tr>
+            <tr><td><b>6</b></td><td><span class="badge badge-light">LX</span></td><td>Mama: "MALIN?!"</td><td>Sudden full light snap back</td><td>0 sec snap</td><td>Comedy contrast — jarring is good</td></tr>
+            <tr><td><b>7</b></td><td><span class="badge badge-scene">SC</span></td><td>Narrator: "Lights fade"</td><td>Full blackout. Actors reset for Scene 2.</td><td>8 sec</td><td>Props team places office table during this</td></tr>
+            <tr><td><b>8</b></td><td><span class="badge badge-sound">SX</span></td><td>Scene 2 begins</td><td>City ambience / Jakarta sounds up</td><td>Until line 1</td><td>AC hum, city traffic, subtle</td></tr>
+            <tr><td><b>9</b></td><td><span class="badge badge-light">LX</span></td><td>Narrator: "One day, Malin and Bujang arrived"</td><td>Cool blue-white office lights up</td><td>5 sec</td><td>Corporate feel. No warmth.</td></tr>
+            <tr><td><b>10</b></td><td><span class="badge badge-sound">SX</span></td><td>Roro enters room</td><td>Soft romantic sting (2 notes)</td><td>1 sec</td><td>Very subtle — comedy beat for Malin freeze</td></tr>
+            <tr><td><b>11</b></td><td><span class="badge badge-sound">SX</span></td><td>Bandung: entrance (bodyguard announces)</td><td>Dramatic boss music sting</td><td>3 sec</td><td>Over-the-top dramatic. Gets laugh.</td></tr>
+            <tr><td><b>12</b></td><td><span class="badge badge-scene">SC</span></td><td>Narrator: Scene 2 ends "Lights fade"</td><td>Blackout. Props reset for Scene 3.</td><td>10 sec</td><td>Throne placed center stage during blackout</td></tr>
+            <tr><td><b>13</b></td><td><span class="badge badge-light">LX</span></td><td>Scene 3 begins</td><td>Red/dramatic mixed lighting up</td><td>5 sec</td><td>Tense, not fully dark</td></tr>
+            <tr><td><b>14</b></td><td><span class="badge badge-sound">SX</span></td><td>Construction sounds (narrated)</td><td>Building/hammering SFX loop</td><td>5 sec</td><td>Comedy construction sound</td></tr>
+            <tr><td><b>15</b></td><td><span class="badge badge-sound">SX</span></td><td>Bandung: "Jinny! Jonny! Come out!"</td><td>SMOKE effect + appearance sting SFX</td><td>2 sec</td><td>Thunder crack + smoke machine if available</td></tr>
+            <tr><td><b>16</b></td><td><span class="badge badge-light">LX</span></td><td>Smoke appears</td><td>Flash of purple light</td><td>1 sec snap</td><td>Jin entrance visual effect</td></tr>
+            <tr><td><b>17</b></td><td><span class="badge badge-sound">SX</span></td><td>Mama: "you will turn into stone!"</td><td>Dramatic curse SFX — deep thunder</td><td>3 sec</td><td>Build slowly under her line</td></tr>
+            <tr><td><b>18</b></td><td><span class="badge badge-light">LX</span></td><td>Malin: "Why can't I move?!"</td><td>Flicker lights then freeze on cold blue</td><td>4 sec</td><td>Slow flicker — not a strobe</td></tr>
+            <tr><td><b>19</b></td><td><span class="badge badge-sound">SX</span></td><td>Narrator: "everyone turned into statues"</td><td>Stone freeze SFX (creaking/crumbling)</td><td>3 sec</td><td>—</td></tr>
+            <tr><td><b>20</b></td><td><span class="badge badge-sound">SX</span></td><td>Mama sits on throne peacefully</td><td>Gentle, slightly absurd happy music plays</td><td>Until bow</td><td>Contrast is the joke. Keep it playing.</td></tr>
+            <tr><td><b>21</b></td><td><span class="badge badge-light">LX</span></td><td>Narrator: "The End."</td><td>Slow full blackout</td><td>5 sec</td><td>Then house lights up for bow</td></tr>
+            <tr><td><b>BOW</b></td><td><span class="badge badge-light">LX</span></td><td>Cast walks out for bow</td><td>Full warm lights + applause music</td><td>Until cast exits</td><td>Celebratory. Full brightness.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ PROPS ═══════════ -->
+  <div class="section" id="props">
+    <div class="section-title">Prop Tracker</div>
+    <div class="section-sub">Made by: <strong>Properti Team</strong> · Updated throughout rehearsals.</div>
+
+    <div class="info-box">
+      <strong>What is this?</strong> Every physical object that appears on stage must be tracked — where it starts, who uses it, and where it goes after. "Preset" means the prop is already in position before the scene starts. If a prop is missing on show day, it can break a scene. This list prevents that.
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Prop</th>
+              <th>Scene</th>
+              <th>Used By</th>
+              <th>Where to Place (Preset)</th>
+              <th>Priority</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody class="prop-row">
+            <tr><td>Small travel bag (Malin's)</td><td>Scene 1</td><td>Malin</td><td>Behind house prop, stage left</td><td><span class="badge badge-high">HIGH</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Gift bag with fake items</td><td>Scene 1</td><td>Bujang</td><td>Bujang carries in from offstage right</td><td><span class="badge badge-med">MED</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>House façade / backdrop</td><td>Scene 1</td><td>Set piece</td><td>Upstage left — preset before show</td><td><span class="badge badge-high">HIGH</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Office table (large)</td><td>Scene 2</td><td>All Scene 2 cast</td><td>Center stage — placed during Scene 1→2 blackout</td><td><span class="badge badge-high">HIGH</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Office chairs (4)</td><td>Scene 2</td><td>Malin, Bujang, Bandung, Roro</td><td>Around table — preset during blackout</td><td><span class="badge badge-high">HIGH</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Clipboard / notepad</td><td>Scene 2</td><td>Bodyguard 2</td><td>Bodyguard 2 carries it</td><td><span class="badge badge-low">LOW</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Fancy throne / armchair</td><td>Scene 3</td><td>Mama (ending)</td><td>Placed during Scene 2→3 blackout, center stage</td><td><span class="badge badge-high">HIGH</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Desk prop (Bandung's office)</td><td>Scene 3</td><td>Bandung</td><td>Upstage center — preset during blackout</td><td><span class="badge badge-med">MED</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Fake smoke / dry ice</td><td>Scene 3</td><td>Technical / Jin entrance</td><td>Placed at Jin entrance mark — offstage</td><td><span class="badge badge-med">MED</span></td><td><span class="badge badge-med">NEEDED</span></td></tr>
+            <tr><td>Bujang's phone (optional)</td><td>Scene 2</td><td>Bujang</td><td>Bujang's pocket</td><td><span class="badge badge-low">LOW</span></td><td><span class="badge badge-low">OPTIONAL</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Props Team Show Day Checklist</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:13px;">
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);color:var(--muted);">☐ 2 hrs before: all props in place and labeled</div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);color:var(--muted);">☐ 1 hr before: do a walk-through check of every preset</div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);color:var(--muted);">☐ During show: stand by offstage for scene change moves</div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);color:var(--muted);">☐ Scene 1→2: move house off, place office table + chairs</div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--border);color:var(--muted);">☐ Scene 2→3: clear table, place throne and Bandung's desk</div>
+        <div style="padding:8px 0;color:var(--muted);">☐ After show: collect all props and store safely</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ WARDROBE ═══════════ -->
+  <div class="section" id="wardrobe">
+    <div class="section-title">Wardrobe Sheet</div>
+    <div class="section-sub">Made by: <strong>Wardrobe Team</strong> · Cross-check with Director's Character Vision Sheet.</div>
+
+    <div class="info-box">
+      <strong>What is this?</strong> A complete list of what every character wears, where each costume comes from, and what the fitting schedule looks like. Wardrobe must start sourcing early — don't wait for final rehearsal week.
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Character</th>
+              <th>Outfit Description</th>
+              <th>Key Items</th>
+              <th>Source</th>
+              <th>Fitting Deadline</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Malin (S1)</b></td><td>Simple village — white/beige</td><td>Plain shirt, batik sarong or simple trousers</td><td>Borrow / thrift</td><td><span class="badge badge-week">Week 2</span></td></tr>
+            <tr><td><b>Malin (S2–3)</b></td><td>Smart business casual</td><td>Collared shirt, dark trousers, clean shoes</td><td>Actor's own</td><td><span class="badge badge-week">Week 2</span></td></tr>
+            <tr><td><b>Mama</b></td><td>Traditional kampung woman</td><td>Kebaya or batik blouse + kain, sandals, hair tied up</td><td>Borrow from family</td><td><span class="badge badge-week">Week 1</span></td></tr>
+            <tr><td><b>Roro Jonggrang</b></td><td>Elegant, soft, feminine</td><td>Dusty pink or lilac blouse, neat skirt/trousers, simple jewelry</td><td>Actor's own + accessories</td><td><span class="badge badge-week">Week 2</span></td></tr>
+            <tr><td><b>Jamilah</b></td><td>Slightly mismatched — intentionally funny</td><td>Clashing colors, over-accessorized, overly done hair</td><td>Costume design — mix pieces</td><td><span class="badge badge-week">Week 2</span></td></tr>
+            <tr><td><b>Nandini</b></td><td>Neat, professional, companion to Roro</td><td>Simple blouse and trousers, neutral tones</td><td>Actor's own</td><td><span class="badge badge-week">Week 2</span></td></tr>
+            <tr><td><b>Bandung Bondowoso</b></td><td>Powerful, sharp, intimidating</td><td>Dark suit (black/navy), white shirt, pocket square, slicked hair</td><td>Borrow or rent</td><td><span class="badge badge-week">Week 1</span></td></tr>
+            <tr><td><b>Bujang</b></td><td>Casual, warm, approachable</td><td>S1: kampung casual. S2–3: smart-casual but relaxed. Sneakers ok.</td><td>Actor's own</td><td><span class="badge badge-week">Week 2</span></td></tr>
+            <tr><td><b>Jinny & Jonny</b></td><td>Matching quirky jin costumes</td><td>Same color (gold/purple), different accessories. Flowy or layered fabric.</td><td>Make / craft</td><td><span class="badge badge-week">Week 1</span></td></tr>
+            <tr><td><b>Bodyguard 1 & 2</b></td><td>Matching security uniform look</td><td>Dark pants, same shirt or vest, earpiece (real or fake), stiff posture</td><td>Coordinate between actors</td><td><span class="badge badge-week">Week 2</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Wardrobe Priority: Do These First</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Items that need making or renting take the longest. Start these in Week 1.</p>
+      <div class="tone-tags">
+        <span class="tone-tag">🥇 Jinny & Jonny costumes — needs crafting</span>
+        <span class="tone-tag">🥇 Bandung suit — borrow or rent early</span>
+        <span class="tone-tag">🥇 Mama's kebaya — source from family</span>
+        <span class="tone-tag">🥈 Jamilah's mismatched look — needs assembling</span>
+        <span class="tone-tag">🥉 Others — mostly actor's own clothing</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SCHEDULE ═══════════ -->
+  <div class="section" id="schedule">
+    <div class="section-title">Production Schedule</div>
+    <div class="section-sub">Made by: <strong>Produser + Stage Manager</strong> · Distribute to ALL departments on Day 1.</div>
+
+    <div class="info-box">
+      <strong>Key rule:</strong> The Director's moodboard and the locked script must be done in <strong>Week 1</strong> before anything else. All other departments work in parallel from Week 2 onwards. Do not let departments wait for each other — work at the same time.
+    </div>
+
+    <div class="week-block urgent">
+      <div class="week-title">⚡ WEEK 1 — Foundation Week (Do this first or everything delays)</div>
+      <div class="day-row"><span class="day-label">Day 1–2</span><div class="day-tasks"><span>Director: create moodboard + character vision sheet</span><span>Script Writer: finalize and lock the script (no more changes after this)</span><span>Producer: distribute script + moodboard to all departments</span></div></div>
+      <div class="day-row"><span class="day-label">Day 3–4</span><div class="day-tasks"><span>Wardrobe: begin sourcing Bandung suit, Mama kebaya, Jin costumes</span><span>Props: make complete props list and begin sourcing</span><span>Sound & Lighting: read cue sheet draft, test equipment</span><span>Publication: start poster design using moodboard</span></div></div>
+      <div class="day-row"><span class="day-label">Day 5–7</span><div class="day-tasks"><span>Stage Manager: create rehearsal schedule and master cue sheet</span><span>Director: create stageboard (blocking maps)</span><span>Finance: collect receipts, approve purchases</span></div></div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-title">📋 WEEK 2 — Rehearsal Week (Scenes blocked and learned)</div>
+      <div class="day-row"><span class="day-label">Day 8–9</span><div class="day-tasks"><span>Full read-through rehearsal with all actors (script in hand is okay)</span><span>Director: walk through blocking from stageboard with cast</span></div></div>
+      <div class="day-row"><span class="day-label">Day 10–11</span><div class="day-tasks"><span>Rehearse Scene 1 full (blocking + lines)</span><span>Wardrobe: fitting sessions for all priority costumes</span><span>Props: all props sourced and labeled</span></div></div>
+      <div class="day-row"><span class="day-label">Day 12–14</span><div class="day-tasks"><span>Rehearse Scene 2 and Scene 3 full</span><span>Sound & Lighting: test all cues with empty stage</span><span>Publication: poster finalized and distributed</span></div></div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-title">🔧 WEEK 3 — Technical Week (Everything comes together)</div>
+      <div class="day-row"><span class="day-label">Day 15–16</span><div class="day-tasks"><span>Rehearsal with ALL props on stage (no substitutes)</span><span>Sound & Lighting: run cue sheet with live actors for first time</span></div></div>
+      <div class="day-row"><span class="day-label">Day 17–18</span><div class="day-tasks"><span>Full dress rehearsal in costume — full show, no stops</span><span>Stage Manager calls all cues for the first time in real time</span><span>Director gives notes after. All departments fix issues.</span></div></div>
+      <div class="day-row"><span class="day-label">Day 19</span><div class="day-tasks"><span>Final dress rehearsal — treat exactly like show day</span><span>No notes during — notes given only after it ends</span></div></div>
+      <div class="day-row"><span class="day-label">Day 20</span><div class="day-tasks"><span>Rest day. Review notes. Last-minute fixes only. No major changes.</span></div></div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-title">🎭 SHOW DAY</div>
+      <div class="day-row"><span class="day-label">-3 hrs</span><div class="day-tasks"><span>Props team: full preset check</span><span>Wardrobe: all costumes laid out per actor</span></div></div>
+      <div class="day-row"><span class="day-label">-2 hrs</span><div class="day-tasks"><span>Sound & Lighting: full equipment test</span><span>Stage Manager: full walkthrough with all departments</span></div></div>
+      <div class="day-row"><span class="day-label">-1 hr</span><div class="day-tasks"><span>Actors: costume + makeup</span><span>Publication: document/photograph the event</span></div></div>
+      <div class="day-row"><span class="day-label">Showtime</span><div class="day-tasks"><span>Stage Manager calls the show</span><span>Everyone executes their role</span></div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ FINANCE ═══════════ -->
+  <div class="section" id="finance">
+    <div class="section-title">Finance Tracker</div>
+    <div class="section-sub">Made by: <strong>Keuangan (Finance)</strong> · Updated every time money is spent.</div>
+
+    <div class="info-box">
+      <strong>Rule #1:</strong> Nothing gets bought without Finance knowing about it first. Every department must get approval before spending. Every purchase needs a receipt. Finance reports to the Producer.
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Budget Overview (Example — adjust to your real budget)</div>
+      <div class="budget-total">Rp 0 / Rp ???</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:12px;">Fill in your actual total budget from your Producer or teacher. Then track against it.</p>
+      <div class="budget-bar"><div class="budget-fill" style="width:0%"></div></div>
+      <p style="color:var(--muted);font-size:12px;">Spent: 0% of budget</p>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Department</th>
+              <th>Item</th>
+              <th>Estimated Cost</th>
+              <th>Actual Cost</th>
+              <th>Receipt?</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Properti</td><td>Office table hire / borrow</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>2</td><td>Properti</td><td>Throne / fancy chair</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>3</td><td>Properti</td><td>Smoke machine hire</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>4</td><td>Wardrobe</td><td>Jin costume materials</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>5</td><td>Wardrobe</td><td>Bandung suit rental</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>6</td><td>Wardrobe</td><td>Jamilah costume accessories</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>7</td><td>Sound & Lighting</td><td>SFX audio files / sound hire</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>8</td><td>Publikasi</td><td>Poster printing</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-med">PENDING</span></td></tr>
+            <tr><td>9</td><td>Misc</td><td>Emergency / contingency</td><td>Rp —</td><td></td><td>☐</td><td><span class="badge badge-low">RESERVE</span></td></tr>
+            <tr style="background:rgba(201,168,76,0.05)"><td colspan="3"><b>TOTAL</b></td><td><b>Rp —</b></td><td><b>Rp —</b></td><td colspan="2"></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px;">💡 Copy this table into Google Sheets so multiple people can update it in real time. Share with Producer for visibility.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Finance Rules for Beginners</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.9;">
+        <div>1. <strong style="color:var(--gold)">No receipt = no reimbursement.</strong> Take a photo of every receipt immediately.</div>
+        <div>2. <strong style="color:var(--gold)">Approve first, buy second.</strong> Any purchase must be cleared with Finance before spending.</div>
+        <div>3. <strong style="color:var(--gold)">Borrow before buying.</strong> Ask if someone can lend the item — props, costumes, equipment.</div>
+        <div>4. <strong style="color:var(--gold)">Keep a contingency fund.</strong> Reserve 10–15% of total budget for surprise expenses.</div>
+        <div>5. <strong style="color:var(--gold)">Final report after show.</strong> Finance submits a full spending summary to the Producer post-show.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TOOLS ═══════════ -->
+  <div class="section" id="tools">
+    <div class="section-title">Tools Guide</div>
+    <div class="section-sub">Recommended free tools for each role — no experience needed.</div>
+
+    <div class="info-box">
+      <strong>Most important rule:</strong> Use tools that all team members can access and edit together. Google tools (Docs, Sheets, Drive) are best because everyone can work on the same file in real time from their phones.
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>🎨 Sutradara — Moodboard & Visual Planning</div>
+      <div class="tool-list">
+        <div class="tool-item"><div class="tool-name">Canva</div><div class="tool-desc">Drag-and-drop moodboard + poster creation. Best for beginners.</div><span class="tool-free">FREE · canva.com</span></div>
+        <div class="tool-item"><div class="tool-name">Pinterest</div><div class="tool-desc">Collect image references per scene. Create secret boards per department.</div><span class="tool-free">FREE · pinterest.com</span></div>
+        <div class="tool-item"><div class="tool-name">Milanote</div><div class="tool-desc">Visual note board — like Pinterest but you can add text and links too.</div><span class="tool-free">FREE plan · milanote.com</span></div>
+        <div class="tool-item"><div class="tool-name">Google Slides</div><div class="tool-desc">Make stageboard sketches. One slide = one scene. Draw boxes for actors.</div><span class="tool-free">FREE · slides.google.com</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>📋 Stage Manager — Scheduling & Cue Tracking</div>
+      <div class="tool-list">
+        <div class="tool-item"><div class="tool-name">Google Sheets</div><div class="tool-desc">Best for cue sheets and prop trackers. Everyone can view from phone.</div><span class="tool-free">FREE · sheets.google.com</span></div>
+        <div class="tool-item"><div class="tool-name">Google Docs</div><div class="tool-desc">Write the rehearsal schedule. Share link with cast so they can't say they didn't know.</div><span class="tool-free">FREE · docs.google.com</span></div>
+        <div class="tool-item"><div class="tool-name">Notion</div><div class="tool-desc">Organize all production documents in one place. Good for keeping everything together.</div><span class="tool-free">FREE plan · notion.so</span></div>
+        <div class="tool-item"><div class="tool-name">WhatsApp Group</div><div class="tool-desc">One group per department. Stage Manager in all groups. Call cues during rehearsal verbally.</div><span class="tool-free">FREE</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>🔊 Sound & Lighting — Audio & Cue Software</div>
+      <div class="tool-list">
+        <div class="tool-item"><div class="tool-name">QLab (Mac)</div><div class="tool-desc">Industry standard for theater sound and lighting cues. Free version available.</div><span class="tool-free">FREE version · figure53.com</span></div>
+        <div class="tool-item"><div class="tool-name">VLC / Spotify</div><div class="tool-desc">If no QLab: play audio files from a phone or laptop. Assign cues to folders.</div><span class="tool-free">FREE</span></div>
+        <div class="tool-item"><div class="tool-name">Freesound.org</div><div class="tool-desc">Download free sound effects — construction, thunder, city ambience, freeze SFX.</div><span class="tool-free">FREE · freesound.org</span></div>
+        <div class="tool-item"><div class="tool-name">Pixabay Music</div><div class="tool-desc">Free background music for scenes — drama, comedy, romantic underscore.</div><span class="tool-free">FREE · pixabay.com/music</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>📣 Publikasi — Poster & Social Media</div>
+      <div class="tool-list">
+        <div class="tool-item"><div class="tool-name">Canva</div><div class="tool-desc">Make poster, Instagram story, event banner. Tons of theater templates.</div><span class="tool-free">FREE · canva.com</span></div>
+        <div class="tool-item"><div class="tool-name">Instagram Stories / Feed</div><div class="tool-desc">Post countdown posts. Character reveals. Behind the scenes. Builds hype.</div><span class="tool-free">FREE</span></div>
+        <div class="tool-item"><div class="tool-name">Google Forms</div><div class="tool-desc">If doing ticket registration or seat booking — create a simple form.</div><span class="tool-free">FREE · forms.google.com</span></div>
+        <div class="tool-item"><div class="tool-name">CapCut</div><div class="tool-desc">Edit short behind-the-scenes video clips for promotion. Easy mobile app.</div><span class="tool-free">FREE · capcut.com</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>💰 Keuangan — Finance Tracking</div>
+      <div class="tool-list">
+        <div class="tool-item"><div class="tool-name">Google Sheets</div><div class="tool-desc">Best for budget tracker. Simple table with real-time sharing. All receipts go here.</div><span class="tool-free">FREE · sheets.google.com</span></div>
+        <div class="tool-item"><div class="tool-name">Google Drive</div><div class="tool-desc">Make a folder called "Receipts" — everyone photos their receipts and uploads here.</div><span class="tool-free">FREE · drive.google.com</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>📁 Shared Drive Setup (Do This on Day 1)</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Create ONE Google Drive folder called "Malin Kundang Production" and make sub-folders:</p>
+      <div class="tone-tags">
+        <span class="tone-tag">📄 01 — Script (locked version)</span>
+        <span class="tone-tag">🎨 02 — Moodboard & Vision</span>
+        <span class="tone-tag">🗺️ 03 — Stageboard</span>
+        <span class="tone-tag">🎛️ 04 — Cue Sheet</span>
+        <span class="tone-tag">📦 05 — Props List</span>
+        <span class="tone-tag">👗 06 — Wardrobe</span>
+        <span class="tone-tag">📅 07 — Schedule</span>
+        <span class="tone-tag">💰 08 — Finance & Receipts</span>
+        <span class="tone-tag">📣 09 — Publication</span>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px;">Share the folder with everyone. Anyone can view. Only department leads can edit their own folder. Producer can edit all.</p>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
